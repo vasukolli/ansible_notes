@@ -1,0 +1,54 @@
+--
+Ansible’s inventory, which defaults to being saved in the location /etc/ansible/hosts. 
+You can specify a different inventory file using the -i <path> option on the command line.
+--
+
+--# Hosts and Groups
+mail.example.com
+
+[webservers]
+foo.example.com
+bar.example.com
+# group variables
+[webservers:vars]
+ntp_server=ntp.atlanta.example.com
+proxy=proxy.atlanta.example.com
+
+[dbservers]
+one.example.com
+two.example.com  ansible_user=root ansible_port=2222
+three.example.com
+
+A YAML version would look like:
+
+all:
+  hosts:
+    mail.example.com
+  children:
+    webservers:
+      hosts:
+        foo.example.com:5309
+        db-[a:f].example.com
+    dbservers:
+     
+       hosts:
+         one.example.com:
+           ansible_port: 5555
+           ansible_host: 192.0.2.50
+         two.example.com:
+      vars:
+        ntp_server: ntp.atlanta.example.com
+        proxy: proxy.atlanta.example.com
+--
+Default Groups
+ -all
+ -ungrouped
+ all contains every host. ungrouped contains all hosts that don’t have another group aside from all
+--
+  
+--
+splittingup host and group specific data
+
+
+
+
